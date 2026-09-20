@@ -1,4 +1,5 @@
-# simulador-riesgos_TI
+# Simulador-riesgos_TI
+
 Simulador educativo de riesgos y resiliencia de servicios TI. Representa escenarios ficticios de phishing, inyeccion SQL, DDoS y fallas fisicas sin ejecutar ataques reales.
 
 Inicio rapido
