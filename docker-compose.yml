@@ -1,0 +1,55 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cyberlab}
+      POSTGRES_USER: ${POSTGRES_USER:-cyberlab}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cyberlab_dev}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cyberlab} -d ${POSTGRES_DB:-cyberlab}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - cyberlab
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://cyberlab:cyberlab_dev@database:5432/cyberlab?schema=public}
+      PORT: 3000
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:8080}
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - cyberlab
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - cyberlab
+
+volumes:
+  postgres_data:
+
+networks:
+  cyberlab:
+    driver: bridge
+
