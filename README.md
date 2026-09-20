@@ -40,10 +40,10 @@ El puerto está limitado al equipo local.
 
 🏗️ Arquitectura
 Componente	Tecnologías :
-< Frontend :	React, Vite, TypeScript, Motion, Phosphor Icons
-< Backend :	Express, TypeScript, Socket.IO, Prisma
-< Base de datos :	PostgreSQL 16
-< Explorador de datos :	Prisma Studio (puerto 5555)
+- Frontend :	React, Vite, TypeScript, Motion, Phosphor Icons
+- Backend :	Express, TypeScript, Socket.IO, Prisma
+- Base de datos :	PostgreSQL 16
+- Explorador de datos :	Prisma Studio (puerto 5555)
 
 🔒 Seguridad de la demostración
 El formulario SQL no ejecuta texto proporcionado por el usuario.
